@@ -175,7 +175,7 @@ async function apiCall(m) {
     const openai = new OpenAIApi(configuration);
   
     const response = await openai.createCompletion({
-      model: "text-ada-001",
+      model: "text-davinci-002",
       prompt: `You are a chat bot\n--------\nuser:${m}\nyou:`,
       max_tokens: tokenSliderInput(tokensSlider),
       temperature: sliderInput(temperatureSlider),

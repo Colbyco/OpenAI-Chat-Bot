@@ -158,15 +158,16 @@ const drawer = ref(null);
 const validation = ref(false);
 
 // functions that mutate state and trigger updates
-async function apiCall(userMessage) {
+async function apiCall(m) {
 
-  userMessage = userMessage.trim()
-
-  if(userMessage.length > 100 || !validation.value) {
+  
+  if(m.length > 100 || !validation.value) {
     // Do nothing
   }
 
   else {
+    m = m.trim()
+
     const configuration = new Configuration({
       apiKey: userAPIKey.value,
     });
@@ -175,7 +176,7 @@ async function apiCall(userMessage) {
   
     const response = await openai.createCompletion({
       model: "text-ada-001",
-      prompt: `You are a chat bot\n--------\nuser:${userMessage}\nyou:`,
+      prompt: `You are a chat bot\n--------\nuser:${m}\nyou:`,
       max_tokens: tokenSliderInput(tokensSlider),
       temperature: sliderInput(temperatureSlider),
     });
@@ -183,10 +184,11 @@ async function apiCall(userMessage) {
     const reply = (response.data.choices[0].text).trim()
     aiResponse.value = reply;
 
-    messageArray.value.push({ message: userMessage, from: 'user' });
+    messageArray.value.push({ message: m, from: 'user' });
     messageArray.value.push({ message: aiResponse.value, from: 'ai' });
-  }
 
+    userMessage.value = '';
+  }
 }
 
 function sliderInput(slider) {
@@ -198,20 +200,20 @@ function sliderInput(slider) {
   }
 }
 
-function tokenSliderInput(tokensSlider) {
-  if(tokensSlider.value >= 200 && tokensSlider.value <= 1500) {
-    return tokensSlider.value;
+function tokenSliderInput(slider) {
+  if(slider.value >= 200 && slider.value <= 1500) {
+    return slider.value;
   }
   else {
     return 1500
   }
 }
 
-async function apiValidation(userAPIKey) {
-  if(userAPIKey.length === 51) {
+async function apiValidation(key) {
+  if(key.length === 51) {
     try {
       const configuration = new Configuration({
-        apiKey: userAPIKey,
+        apiKey: key,
       });
   
       const openai = new OpenAIApi(configuration);
@@ -232,12 +234,12 @@ async function apiValidation(userAPIKey) {
 }
 
 // Email Copy Script
-function copyToClipBoard(string) {
-  navigator.clipboard.writeText(string);
+function copyToClipBoard(email) {
+  navigator.clipboard.writeText(email);
 }
 
-function apiLengthValidation(userAPIKey) {
-  if(userAPIKey.length > 51) {
+function apiLengthValidation(key) {
+  if(key.length > 51) {
     return 'Key must be 51 characters'
   }
   else {
@@ -245,8 +247,8 @@ function apiLengthValidation(userAPIKey) {
   }
 }
 
-function messageLengthValidation(userMessage) {
-  if(userMessage.length > 100) {
+function messageLengthValidation(m) {
+  if(m.length > 100) {
     return 'Message Must be 100 Characters or Less'
   }
   else {

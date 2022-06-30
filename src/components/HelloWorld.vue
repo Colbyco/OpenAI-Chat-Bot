@@ -167,7 +167,7 @@ async function apiCall(m) {
 
   else {
     m = m.trim()
-
+    
     const configuration = new Configuration({
       apiKey: userAPIKey.value,
     });
@@ -233,10 +233,6 @@ async function apiValidation(key) {
   }
 }
 
-// Email Copy Script
-function copyToClipBoard(email) {
-  navigator.clipboard.writeText(email);
-}
 
 function apiLengthValidation(key) {
   if(key.length > 51) {
@@ -256,6 +252,11 @@ function messageLengthValidation(m) {
   }
 }
 
+
+function copyToClipBoard(email) {
+  navigator.clipboard.writeText(email);
+}
+    
 </script>
 
 <!-- CSS Bullshit -->
@@ -270,40 +271,50 @@ function messageLengthValidation(m) {
     margin-top: 10px;
   }
 
-  .userMessage {
-    color: white;
-    padding-left: 3px;
-    margin-top: 10px;
-  }
-
   .aiMessage {
     color: white;
-    text-align: right;
-    padding-right: 10px;
+    min-width: 10px;
+    padding-left: 3px;
     margin-top: 10px;
+    max-width: 500px;
+    overflow-wrap: break-word;
   }
 
-  .userBubble {
-    display: inline;
-    width: 100%;
-    background-color: #b982f5;
+  .userMessage {
+    color: white;
+    min-width: 10px;
+    max-width: 580px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    overflow-wrap: break-word;
+  }
+
+  .aiBubble {
+    display: inline-block;
+    min-width: 10px;
+    background-color: #869e6c;
     padding: 7px 10px;
     border-radius: 10px 10px 10px 0px;
     margin: 10px;
     max-width: 500px;
+    overflow-wrap: break-word;
   }
 
-  .aiBubble {
-    display: inline;
-    width: 100%;
-    background-color: #869e6c;
+  .userBubble {
+    display: inline-block;
+    min-width: 10px;
+    max-width: 580px;
+    background-color: #b982f5;
     padding: 7px 10px;
     border-radius: 10px 10px 0px 10px;
+    overflow-wrap: break-word;
   }
 
   .wrapper {
+    margin-left: 35%;
     height: 900px;
-    width: 1905px;
+    width: 600px;
     overflow: auto; 
     display: flex; 
     flex-direction: column-reverse;
